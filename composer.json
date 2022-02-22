@@ -1,6 +1,13 @@
 {
-    "name": "solluzi/framework",
+    "name": "solluzi/core",
     "description": "A short description of what your package does",
+    "authors": [
+        {
+            "name": "Mauro Joaquim Miranda",
+            "email": "mauro.miranda@codesolluzi.com"
+        }
+    ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
         "firebase/php-jwt"             : "^5.0",
