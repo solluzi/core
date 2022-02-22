@@ -1,6 +1,8 @@
 {
     "name": "solluzi/core",
     "description": "A short description of what your package does",
+    "homepage": "https://github.com/solluzi/composer-license-checker",
+    "license": "MIT",
     "authors": [
         {
             "name": "Mauro Joaquim Miranda",
