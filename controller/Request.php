@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace Solluzi\Controller;
 
 use Solluzi\Controller\Traits\FormDecript;
+use Solluzi\Controller\Traits\ReturnDate2BrTrait;
 use Solluzi\Controller\Traits\ReturnDate2UsTrait;
+use Solluzi\Controller\Traits\ReturnDecimalTrait;
 
 /**
 * @version		1.1.1
@@ -24,6 +26,8 @@ class Request
     private $input;
     use FormDecript;
     use ReturnDate2UsTrait;
+    use ReturnDate2BrTrait;
+    use ReturnDecimalTrait;
 
     public function __construct($headers = [], $post = [], $get = [], $files = [])
     {
@@ -70,7 +74,7 @@ class Request
     */
     public function getFiles()
     {
-
+        return $this->files;
     }
 
     /**
@@ -83,7 +87,8 @@ class Request
     */
     public function getFile($key)
     {
-
+        $this->files[$key];
+        return $this;
     }
 
     /**
@@ -94,9 +99,61 @@ class Request
     *
     *
     */
-    public function getFileName()
+    public function toName()
     {
-        
+        return $this->files['name'];
+    }
+
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toType()
+    {
+        return $this->files['type'];
+    }
+
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toTmpName()
+    {
+        return $this->files['tmp_name'];
+    }
+
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toError()
+    {
+        return $this->files['error'];
+    }
+
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toSize()
+    {
+        return $this->files['size'];
     }
 
     /**
@@ -135,7 +192,7 @@ class Request
     */
     public function getHeaders()
     {
-
+        return $this->headers;
     }
 
     /**
@@ -161,30 +218,58 @@ class Request
     */
     public function toInt()
     {
-
+        return intval($this->input);
     }
 
-    public function toDecimal()
-    {
-
-    }
-
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
     public function toDate2Us($timestamp = false)
     {
         $this->input = $this->date2us($this->input, $timestamp);
         return $this->input ?? null;
     }
 
-    public function toDate2Br()
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toDate2Br($timestamp = false)
     {
-
+        $this->input = $this->date2br($this->input, $timestamp);
+        return $this->input ?? null;
     }
 
-    public function toFloat()
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
+    public function toFloat($decimalPlaces = null)
     {
-
+        return $this->brl2decimal($this->input, $decimalPlaces);
     }
 
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
     public function toBoolean()
     {
         if(is_int($this->input)){
@@ -193,6 +278,14 @@ class Request
         return $this->input ? 1 : 0;
     }
 
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
     public function toBool()
     {
         if(is_int($this->input)){
@@ -201,6 +294,14 @@ class Request
         return $this->input ?? false;
     }
 
+    /**
+    *--------------------------------------------------------------------------
+    *								
+    *--------------------------------------------------------------------------
+    *
+    *
+    *
+    */
     public function toArray()
     {
         return (array) $this->input;
